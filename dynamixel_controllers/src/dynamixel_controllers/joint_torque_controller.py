@@ -167,7 +167,6 @@ class JointTorqueController(JointController):
                 self.joint_state_pub.publish(self.joint_state)
 
     def set_torque(self, torque):
-        print 'set torque %d' % torque
         self.dxl_io.set_goal_torque(self.motor_id, torque)
 
     def process_command(self, msg):
