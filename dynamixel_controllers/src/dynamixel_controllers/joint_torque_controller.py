@@ -104,7 +104,8 @@ class JointTorqueController(JointController):
         if self.joint_speed < self.MIN_VELOCITY: self.joint_speed = self.MIN_VELOCITY
         elif self.joint_speed > self.joint_max_speed: self.joint_speed = self.joint_max_speed
         
-        self.set_speed(0.0)
+        self.set_torque_enable(True)
+        self.set_torque(0)
         
         return True
 
@@ -165,6 +166,10 @@ class JointTorqueController(JointController):
                 
                 self.joint_state_pub.publish(self.joint_state)
 
+    def set_torque(self, torque):
+        print 'set torque %d' % torque
+        self.dxl_io.set_goal_torque(self.motor_id, torque)
+
     def process_command(self, msg):
-        self.set_speed(msg.data)
+        self.set_torque(int(msg.data))
 
